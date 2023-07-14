@@ -1,0 +1,77 @@
+#7.Bidirectional
+from collections import defaultdict
+gr = defaultdict(list)
+# inp = eval(input("enter edges:"))
+inp = eval(str([[1,2],[1,5],[2,3],[2,4],[3,8],[3,9],[5,6],[5,7],[7,10],[7,11]]))
+for i in inp:
+    gr[i[0]].append(i[1])
+    gr[i[1]].append(i[0])
+print(gr)
+
+src = 1
+target = 9
+ind = -1
+vertices = 12
+ind = 0
+s_visit = [False]*vertices
+t_visit = [False]*vertices
+s_parent = [-1]*vertices
+t_parent = [-1]*vertices
+s_queue = []
+t_queue = []
+
+
+def bidirectional(s, t ):
+    s_queue.append(s)
+    t_queue.append(t)
+    s_visit[s] = True
+    t_visit[t] = True
+    while(len(s_queue) and len(t_queue)):
+        bfs('s')
+        bfs('t')
+        intersect = intersection(s_visit, t_visit)
+        if(intersect != -1):
+            print("intersect at",intersect)
+            return 
+
+def intersection(s_visit, t_visit):
+    global ind
+    for i in range(vertices):
+        if s_visit[i] and t_visit[i]:
+            ind = i
+            return ind
+    return -1
+
+def bfs(d):
+    if(d == 's'):
+        cur = s_queue.pop(0)
+        for i in gr[cur]:
+            if(s_visit[i] == False):
+                s_queue.append(i)
+                s_visit[i] = True
+                s_parent[i] = cur
+            
+            
+    if(d == 't'):
+        cur = t_queue.pop(0)
+        for i in gr[cur]:
+            if t_visit[i] == False:
+                t_queue.append(i)
+                t_visit[i] = True
+                t_parent[i] = cur
+
+
+bidirectional(src, target)
+print(s_parent,t_parent)
+# print(s_visit, t_visit)
+t = ind
+# print(ind)
+ind = s_parent[ind]
+# print(ind)
+print("path:")
+while(ind != -1):
+    print(ind,"->",end = "")
+    ind = s_parent[ind]
+while(t != -1):
+    print(t,"->", end="")
+    t = t_parent[t]
