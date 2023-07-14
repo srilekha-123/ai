@@ -1,3 +1,15 @@
+gr = {}
+while True:
+    node = input("Enter a node (or 'quit' to exit): ")
+    if node == 'quit':
+        break
+    neighbors_input = input("Enter neighbors and weights for node {} (separated by commas): ".format(node))
+    neighbors = {}
+    for neighbor in neighbors_input.split(','):
+        neighbor_node, weight = neighbor.split(':')
+        neighbors[neighbor_node.strip()] = int(weight.strip())
+    gr[node] = neighbors
+print(gr)
 #5.uniform cost search
 from queue import PriorityQueue
 gr={'a':{'b':3,'c':2},'b':{'d':6,'e':5,'a':3},'c':{'f':5,'a':2},'f':{'g':2,'c':5},'e':{'b':5},'g':{'f':2},'d':{'b':6}}
