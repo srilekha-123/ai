@@ -1,0 +1,41 @@
+#18.Implement Crypt Arithmetic
+#cryptarthmetic
+def value(w,d):
+    n=0
+    for x in w:
+        n=n*10+d[x]
+    return n
+import itertools
+def cryptArrithmetic(words,res):
+    letters = []
+    for word in words:
+        for letter in word:
+            if letter not in letters:
+                letters.append(letter)
+    for letter in res:
+        if letter not in letters:
+            letters.append(letter)
+    digits = range(10)
+    letters = tuple(letters)
+#     print(letters)
+    for perm in itertools.permutations(digits,len(letters)):
+        d = dict(zip(letters, perm))
+        values = []
+        s = 0
+        for word in words:
+            if d[word[0]] == 0:
+                s = 0
+                break
+            else:
+                values.append(value(word, d))
+        s = sum(values)       
+        if(s>0):
+            if s == value(res, d):
+                print(d)
+                for i in range(len(words)):
+                    print(values[i]," + ", end = "")
+                print(" = ",s)
+                break              
+words = ["forty","ten","ten"]  
+res = "sixty"
+cryptArrithmetic(words,res)
