@@ -1,0 +1,36 @@
+graph = {}
+while True:
+    node = input("Enter a node (or 'quit' to exit): ")
+    if node == 'quit':
+        break
+    neighbors = input("Enter neighbors of {}: ".format(node)).split()
+    graph[node] = neighbors
+print(graph)
+#2.DFS
+graph = {
+  'A' : ['B','C'],
+  'B' : ['D', 'E'],
+  'C' : ['F','G'],
+  'D' : [],
+  'E' : ['H'],
+  'F' : [],
+  'G' : [],
+  'H' : []
+}
+
+o_l=[]
+c_l=[]
+S='A'
+G='F'
+o_l.append(S)
+while o_l:
+  s=o_l.pop()
+  c_l.append(s)
+  for neig in graph[s]:
+    if neig not in o_l:
+      if neig not in c_l:
+        o_l.append(neig)
+  print("o_l",o_l)
+  print("c_l",list(reversed(c_l)))
+  if G in c_l:
+    break
