@@ -1,0 +1,40 @@
+#10.Vaccum world-BFS
+# vaccumworldbfs
+def possibilities(temp):
+    child = []
+#     print(temp)
+    if temp[0] == 'L':
+        child.append(['R',temp[1]])
+        child.append(['L',[0,temp[1][1]]])
+    else:
+        child.append(['R',[temp[1][0],0]])
+        child.append(['L',temp[1]])
+    return child
+def vaccumworldbfs(inp):
+    queue = [inp]
+    visited = [inp]
+    temp = queue[0]
+    parent = [-1]
+    while 1:
+        pos = possibilities(temp)
+        for i in pos:
+            if i not in visited:
+                queue.append(i)
+                visited.append(i)
+                parent.append(visited.index(temp))
+                if i == ['L',[0,0]] or i == ['R',[0,0]]:
+                    print("goal reached")
+                    print(i)
+                    return visited, parent
+        queue.remove(temp)
+        temp = queue[0]
+visited, parent = vaccumworldbfs(['L',[1,1]])
+print(parent)
+path = [visited[-1]]
+ind = parent[-1]
+while(1):
+    path.insert(0, visited[ind])
+    ind = parent[ind]
+    if ind < 0:
+        print("path : ",path)
+        break
